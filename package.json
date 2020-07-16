@@ -1,0 +1,43 @@
+{
+  "name": "jig-pokedex",
+  "scripts": {
+    "start": "ts-node src/server.ts",
+    "build": "jigjs-build",
+    "build:analyse-bundle": "SHOW_BUNDLE_REPORT=true npm run build",
+    "build:watch": "DEV=true BUILD_WATCH=true npm run build",
+    "server:watch": "DEV=true ts-node-dev --no-notify src/server.ts",
+    "dev": "concurrently -n build,server \"npm run build:watch\" \"DEV=true ts-node-dev --no-notify src/server.ts\"",
+    "test": "jest",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "jigcss": "0.0.0-pre-alpha.20",
+    "jigjs": "0.0.0-pre-alpha.20",
+    "node-fetch": "^2.6.0",
+    "ts-node": "^8.10.1",
+    "tslib": "^2.0.0",
+    "typescript": "^3.8.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.4",
+    "@storybook/html": "^5.3.19",
+    "@testing-library/dom": "^7.20.0",
+    "@testing-library/jest-dom": "^5.11.0",
+    "@types/jest": "^26.0.3",
+    "@types/node-fetch": "^2.5.7",
+    "babel-loader": "^8.1.0",
+    "concurrently": "^5.2.0",
+    "jest": "^26.1.0",
+    "jest-environment-jsdom-global": "^2.0.4",
+    "jest-environment-jsdom-sixteen": "^1.0.3",
+    "nock": "^13.0.2",
+    "ts-jest": "^26.1.1",
+    "ts-loader": "^7.0.5",
+    "ts-node": "^8.10.2",
+    "ts-node-dev": "^1.0.0-pre.50",
+    "webpack": "^4.43.0",
+    "webpack-bundle-analyzer": "^3.7.0"
+  }
+}
