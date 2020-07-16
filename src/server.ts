@@ -41,4 +41,4 @@ const server = new Server(new ServerSideRendering(appFactory, template, '#root')
 
 server.app.use(express.static(process.cwd() + '/assets'));
 
-server.start(3333 || parseInt(process.env.PORT));
+server.start(parseInt(process.env.PORT) || 3333);
