@@ -13,7 +13,7 @@ import {render} from "jigjs/template/render";
 import { Platform } from "jigjs/framework/platform";
 
 
-describe('Pokelist', () => {
+describe('Poke list', () => {
   let app: App;
 
   describe('first page', () => {
@@ -30,6 +30,10 @@ describe('Pokelist', () => {
     it('renders the pokemon list', () => {
       expect(screen.getByText('Bulbasaur')).toBeInTheDocument();
       expect(screen.getByText('Raticate')).toBeInTheDocument();
+    });
+
+    it('updates page title to home', async () => {
+        expect(document.title).toBe('Jig.js Pokédex | Home');
     });
 
     it('has the next page button', () => {
@@ -84,6 +88,10 @@ describe('Pokelist', () => {
       await waitUntil(app, () => app.isInitialRenderFinished());
 
       expect(await screen.findByText('Bulbasaur')).toBeInTheDocument();
+    });
+
+    it('updates page title to page number', async () => {
+        expect(document.title).toBe('Jig.js Pokédex | Page 49');
     });
   });
 });

@@ -33,14 +33,23 @@ export class PokemonList {
                 padding: this.context.style.defaultElementSpace
             },
         }
-    }
+      }
     });
 
     new PokemonService(this.context).fetchPokemonList(this.page, (_, result) => {
+      this.setPageTitle();
       this.pokemonListResponse = result;
       this._isLoading = false;
       this.pokemonGrid = new PokeGrid(this.context, this.pokemonListResponse.pokemonList);
     });
+  }
+
+  private setPageTitle() {
+    if (this.page === 1) {
+      this.context.title.set('Home');
+      return;
+    }
+    this.context.title.set(`Page ${this.page}`);
   }
 
   get isLoading() {

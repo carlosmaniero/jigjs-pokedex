@@ -21,13 +21,17 @@ describe('Pokemon Detail Page', () => {
         await waitUntil(app, () => app.isInitialRenderFinished());
     });
 
-    it('renders the pokemon information', async () => {
-        expect(await screen.findByText('Bulbasaur')).toBeInTheDocument();
-        expect(await screen.findByText('45')).toBeInTheDocument();
-        expect(await screen.findByText('50')).toBeInTheDocument();
-        expect(await screen.findByText('49')).toBeInTheDocument();
-        expect(await screen.findByText('65')).toBeInTheDocument();
-        expect(await screen.findByText('67')).toBeInTheDocument();
-        expect(await screen.findByText('44')).toBeInTheDocument();
+    it('renders the pokemon information', () => {
+        expect(screen.getByText('Bulbasaur')).toBeInTheDocument();
+        expect(screen.getByText('45')).toBeInTheDocument();
+        expect(screen.getByText('50')).toBeInTheDocument();
+        expect(screen.getByText('49')).toBeInTheDocument();
+        expect(screen.getByText('65')).toBeInTheDocument();
+        expect(screen.getByText('67')).toBeInTheDocument();
+        expect(screen.getByText('44')).toBeInTheDocument();
+    });
+
+    it('updates page title', async () => {
+        expect(document.title).toBe('Jig.js Pokédex | Bulbasaur');
     });
 });

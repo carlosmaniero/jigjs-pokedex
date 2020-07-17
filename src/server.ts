@@ -4,7 +4,7 @@ import {ServerSideRendering} from 'jigjs/framework/server/ssr';
 import {Server} from "jigjs/framework/server/server";
 
 
-const template = `<html lang="en">
+const template = `<!DOCTYPE html><html lang="en">
     <head>
         <title>Jig!</title>
         <link href="https://fonts.googleapis.com/css2?family=Mandali&display=swap" rel="stylesheet">
