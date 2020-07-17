@@ -36,12 +36,11 @@ export class PokemonList {
     }
     });
 
-    new PokemonService(this.context).fetchPokemonList(this.page)
-      .then((result) => {
-        this.pokemonListResponse = result;
-        this._isLoading = false;
-        this.pokemonGrid = new PokeGrid(this.context, this.pokemonListResponse.pokemonList);
-      });
+    new PokemonService(this.context).fetchPokemonList(this.page, (_, result) => {
+      this.pokemonListResponse = result;
+      this._isLoading = false;
+      this.pokemonGrid = new PokeGrid(this.context, this.pokemonListResponse.pokemonList);
+    });
   }
 
   get isLoading() {

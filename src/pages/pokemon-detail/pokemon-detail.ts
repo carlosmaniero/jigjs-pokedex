@@ -11,10 +11,9 @@ export class PokemonDetailPage {
 
     constructor(private readonly context: AppContext, private readonly slug) {
         new PokemonService(this.context)
-            .fetchPokemon(this.slug)
-            .then((pokemon) => {
+            .fetchPokemon(this.slug, (_, pokemon) => {
                 this.pokemonDetail = new PokeDetail(context, pokemon);
-            })
+            });
     }
 
     render() {

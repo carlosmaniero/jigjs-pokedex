@@ -20,12 +20,19 @@ export class PokemonService {
   constructor(private readonly context: AppContext) {
   }
 
-  async fetchPokemonList(page: number): Promise<PokemonListResponse> {
-    const response = await this.fetchData(page);
+  fetchPokemonList(page: number, callback: (err: unknown, response: PokemonListResponse) => void): void {
+    this.context.transferState
+      .fetch(this.transferStateKey(page), () => this.fetchData(page), (err, response) => {
+        callback(err, this.map(page, response));
+      });
+  }
 
-    this.context.transferState.setState(this.transferStateKey(page), response);
-
-    return this.map(page, response);
+  async fetchPokemon(pokemonSlug: string, callback?: (err: unknown, response: Pokemon) => void): Promise<Pokemon> {
+    this.context.transferState.fetch(`pokeapi-fetch-detail-${pokemonSlug}`, async () => {
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonSlug}`);
+      return await response.json();
+    }, (err, response) => { callback(err, this.mapPokemonDetail(response)); });
+    return;
   }
 
   private map(page: number, response) {
@@ -34,19 +41,6 @@ export class PokemonService {
       nextPageNumber: this.getNextPageNumber(page, response.count),
       pokemonList: response.results.map((result) => this.toPokemonBasicDetail(result))
     };
-  }
-
-  async fetchPokemon(pokemonSlug: string): Promise<Pokemon> {
-    if (this.context.transferState.hasState(`pokeapi-fetch-detail-${pokemonSlug}`)) {
-      return this.mapPokemonDetail(this.context.transferState.getState(`pokeapi-fetch-detail-${pokemonSlug}`));
-    }
-
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonSlug}`);
-    const responseBody = await response.json();
-
-    this.context.transferState.setState(`pokeapi-fetch-detail-${pokemonSlug}`, responseBody);
-
-    return this.mapPokemonDetail(responseBody);
   }
 
   private mapPokemonDetail(responseBody: any): Pokemon {

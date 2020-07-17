@@ -38,7 +38,7 @@ export class PokeCard {
 
     private pokemonCardBody() {
         return html`
-            <img width="128px" height="128px" src="${this.pokemon.sprite}" />
+            <img width="128px" height="128px" alt="${this.pokemon.name}" src="${this.pokemon.sprite}" />
             <h2>${this.pokemon.name}</h2>
         `;
     }
