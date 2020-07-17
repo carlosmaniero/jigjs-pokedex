@@ -8,9 +8,9 @@ import {renderComponent} from "jigjs/components";
 import {screen} from "@testing-library/dom";
 import {waitUntil} from "jigjs/reactive";
 import {appFactory} from "../../app";
-import {Platform} from "jigjs/framework/patform/platform";
 import {App} from "jigjs/framework/app/app";
 import {render} from "jigjs/template/render";
+import { Platform } from "jigjs/framework/platform";
 
 
 describe('Pokelist', () => {

@@ -1,10 +1,11 @@
 import { App } from "jigjs/framework/app/app";
+import { waitUntil } from "jigjs/reactive";
+import { Platform } from "jigjs/framework/platform";
 import { fakeDetail } from "../../__tests__/contracts/pokeapi/fake-pokeapi";
-import { Platform } from "jigjs/framework/patform/platform";
 import { appFactory } from "../../app";
 import { renderComponent } from "jigjs/components";
-import { waitUntil } from "jigjs/reactive";
 import { screen } from "@testing-library/dom";
+
 
 describe('Pokemon Detail Page', () => {
     let app: App;

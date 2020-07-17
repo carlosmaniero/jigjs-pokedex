@@ -1,4 +1,4 @@
-import { Platform } from "jigjs/framework/patform/platform";
+import { Platform } from 'jigjs/framework/platform';
 import { RouterModule } from "jigjs/framework/router/module";
 import { TransferState } from "jigjs/framework/transfer-state";
 import { AppContext } from "../app-context";
