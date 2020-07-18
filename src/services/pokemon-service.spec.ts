@@ -1,22 +1,14 @@
 import nock from "nock";
 import { PokemonBasicDetail, Pokemon } from "../domain/pokemon";
 import { createTestContext } from "../__tests__/context";
-import { firstPokemonPage } from "../__tests__/contracts/pokeapi/fake-pokeapi";
-import { PokemonService } from "./pokemon-service";
+import { PokemonService, NotFoundAPIError } from "./pokemon-service";
 
 const pokeApiFirstPage = require('../__tests__/contracts/pokeapi/pokeapi-pokemon-first-page.json');
 const pokeApiLastPage = require('../__tests__/contracts/pokeapi/pokeapi-pokemon-last-page.json');
+const pokeApiNoResult = require('../__tests__/contracts/pokeapi/pokeapi-pokemon-no-result.json');
 const pokeApiBulbasaur = require('../__tests__/contracts/pokeapi/pokeapi-pokemon-detail.json');
 
 describe('Pokemon Service', () => {
-  afterEach(() => {
-    nock.restore();
-  })
-
-  beforeEach(() => {
-    !nock.isActive() && nock.activate();
-  });
-
   describe('pokemon list', () => {
     it('return the pokemon list', (done) => {
       nock('https://pokeapi.co')
@@ -84,6 +76,25 @@ describe('Pokemon Service', () => {
             ]
           )
         );
+        done();
+      });
+    });
+  });
+
+  describe('not found', () => {
+    it('returns not found given no results', (done) => {
+      nock('https://pokeapi.co')
+        .get('/api/v2/pokemon')
+        .query({
+          offset: 980,
+          limit: 20
+        })
+        .reply(200, pokeApiNoResult);
+
+      const pokemonService = new PokemonService(createTestContext());
+      pokemonService.fetchPokemonList(50, (err, pokemonResponse) => {
+        expect(pokemonResponse).toBe(undefined);
+        expect(err).toStrictEqual(new NotFoundAPIError());
         done();
       });
     });

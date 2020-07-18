@@ -1,9 +1,11 @@
-import {component, html, RenderableComponent} from "jigjs/components";
+import {component, html, RenderableComponent, connectedCallback} from "jigjs/components";
 import {AppContext} from "../../app-context";
 import {TemplateRenderControl} from "./template-render-control";
 import {MainHeader} from "../../components/ui/main-header";
-import {propagate} from "jigjs/reactive/index";
+import {propagate, observing} from "jigjs/reactive/index";
 import {PokemonList} from "../pokemon-list/pokemon-list";
+import { Renderable } from 'jigjs/template/render';
+import { NotFound } from '../not-found/not-found';
 
 
 @component()
@@ -50,11 +52,17 @@ export class MainTemplate {
   render() {
     return html`
       ${this.header}
-      <main class="${this.mainClass}">
-        ${this.templateRenderControl.component}
-      </main>
+      ${this.renderMain()}
       ${this.renderLoadingIndicator()}
     `
+  }
+
+  renderMain(): Renderable {
+    if (this.templateRenderControl.component) {
+      return html`<main class="${this.mainClass}">
+        ${this.templateRenderControl.component.notFound ? new NotFound(this.context) : this.templateRenderControl.component}
+      </main>`
+    }
   }
 
   private renderLoadingIndicator() {
@@ -68,7 +76,7 @@ export class MainTemplate {
       </div>`;
   }
 
-  updateComponent(component: RenderableComponent & {isLoading: boolean}) {
+  updateComponent(component: RenderableComponent & {isLoading: boolean, notFound?: boolean}) {
     return this.templateRenderControl.updateComponent(component);
   }
 }

@@ -4,9 +4,9 @@ import {RenderableComponent} from "jigjs/components";
 @observable()
 export class TemplateRenderControl {
   @observing()
-  private _component: RenderableComponent;
+  private _component: RenderableComponent & {isLoading: boolean, notFound?: boolean};
   @observing()
-  private _loadingComponent: RenderableComponent;
+  private _loadingComponent: RenderableComponent & {isLoading: boolean, notFound?: boolean};
 
   async updateComponent(component: RenderableComponent & {isLoading: boolean}) {
     this._loadingComponent = component;

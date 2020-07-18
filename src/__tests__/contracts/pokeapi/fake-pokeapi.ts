@@ -1,6 +1,7 @@
 import nock from "nock";
 export const firstPokemonPage = require('./pokeapi-pokemon-first-page.json');
 export const lastPokemonPage = require('./pokeapi-pokemon-last-page.json');
+export const emptyPokemonPage = require('./pokeapi-pokemon-no-result.json');
 export const bulbasaurDetails = require('./pokeapi-pokemon-detail.json');
 
 export const fakeList = (page: number, response, statusCode = 200) => {

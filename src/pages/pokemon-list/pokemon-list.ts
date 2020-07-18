@@ -12,10 +12,15 @@ export class PokemonList {
 
   @observing()
   private pokemonListResponse: PokemonListResponse;
+
   @observing()
   private _isLoading = true;
+
   @observing()
   private pokemonGrid: PokeGrid;
+
+  @observing()
+  _notFound: boolean = false;
 
   constructor(private readonly context: AppContext, page: number) {
     this.page = page;
@@ -25,7 +30,8 @@ export class PokemonList {
         margin: '0 auto',
         maxWidth: this.context.style.layoutMaxSize,
         display: 'flex',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        paddingBottom: this.context.style.defaultElementSpace
       },
       '@media': {
         [this.context.style.viewports.tablet]: {
@@ -36,7 +42,13 @@ export class PokemonList {
       }
     });
 
-    new PokemonService(this.context).fetchPokemonList(this.page, (_, result) => {
+    new PokemonService(this.context).fetchPokemonList(this.page, (err, result) => {
+      if (err) {
+        this._isLoading = false;
+        this._notFound = true;
+        this.context.events.notFound.publish();
+        return;
+      }
       this.setPageTitle();
       this.pokemonListResponse = result;
       this._isLoading = false;
@@ -54,6 +66,10 @@ export class PokemonList {
 
   get isLoading() {
     return this._isLoading;
+  }
+
+  get notFound() {
+    return this._notFound;
   }
 
   render() {
@@ -95,10 +111,10 @@ export class PokemonList {
   }
 
   private hasNextPageNumber() {
-    return !this.isLoading && this.pokemonListResponse.nextPageNumber;
+    return this.pokemonListResponse && this.pokemonListResponse.nextPageNumber;
   }
 
   private hasPreviousPageNumber() {
-    return !this.isLoading && this.pokemonListResponse.previousPageNumber;
+    return this.pokemonListResponse && this.pokemonListResponse.previousPageNumber;
   }
 }

@@ -4,10 +4,15 @@ import {RouterModule} from "jigjs/framework/router/module";
 import {Route} from "jigjs/framework/router/router-link";
 import {TransferState} from "jigjs/framework/transfer-state";
 import { Title } from './pages/title';
+import { Subject } from 'jigjs/events/subject';
+import { RouterResponse } from 'jigjs/framework/router/routes';
 
 
 export class AppContext {
     readonly routes = {
+        home: () => {
+            return new Route('home');
+        },
         pokemonPage: (page: number) => {
             return new Route('pokemon:page', {page: page.toString()});
         }
@@ -33,7 +38,12 @@ export class AppContext {
 
     readonly title = new Title(this.window);
 
+    readonly events = {
+        notFound: new Subject<void>()
+    }
+
     transferState: TransferState;
+    currentResponse: RouterResponse;
 
     constructor(private readonly window: JigWindow, readonly routerModule: RouterModule) {
     }

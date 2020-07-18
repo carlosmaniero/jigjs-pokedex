@@ -9,9 +9,16 @@ export class PokemonDetailPage {
     @observing()
     private pokemonDetail: PokeDetail;
 
+    @observing()
+    notFound = false;
+
     constructor(private readonly context: AppContext, private readonly slug) {
         new PokemonService(this.context)
-            .fetchPokemon(this.slug, (_, pokemon) => {
+            .fetchPokemon(this.slug, (err, pokemon) => {
+                if (err) {
+                    this.notFound = true;
+                    return;
+                }
                 this.context.title.set(pokemon.name);
                 this.pokemonDetail = new PokeDetail(context, pokemon);
             });
@@ -22,6 +29,6 @@ export class PokemonDetailPage {
     }
 
     get isLoading() {
-        return !this.pokemonDetail;
+        return !this.notFound && !this.pokemonDetail;
     }
 }

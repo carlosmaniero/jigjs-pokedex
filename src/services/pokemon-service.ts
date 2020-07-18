@@ -14,6 +14,8 @@ interface PokemonItemResponse {
   url: string;
 }
 
+export class NotFoundAPIError extends Error {}
+
 export class PokemonService {
   private readonly API_ITEMS_LIMIT = 20;
 
@@ -23,6 +25,11 @@ export class PokemonService {
   fetchPokemonList(page: number, callback: (err: unknown, response: PokemonListResponse) => void): void {
     this.context.transferState
       .fetch(this.transferStateKey(page), () => this.fetchData(page), (err, response) => {
+        if (response.results.length === 0) {
+          callback(new NotFoundAPIError(), undefined);
+          return;
+        }
+
         callback(err, this.map(page, response));
       });
   }
@@ -30,8 +37,20 @@ export class PokemonService {
   async fetchPokemon(pokemonSlug: string, callback?: (err: unknown, response: Pokemon) => void): Promise<Pokemon> {
     this.context.transferState.fetch(`pokeapi-fetch-detail-${pokemonSlug}`, async () => {
       const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonSlug}`);
+      if (!response.ok) {
+        return {
+          notFound: true
+        }
+      }
       return await response.json();
-    }, (err, response) => { callback(err, this.mapPokemonDetail(response)); });
+    }, (err, response) => {
+      if (response.notFound) {
+        callback(new NotFoundAPIError(), undefined);
+        return;
+      }
+
+      callback(err, response && this.mapPokemonDetail(response)); 
+    });
     return;
   }
 
