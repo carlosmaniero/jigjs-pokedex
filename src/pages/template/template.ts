@@ -6,13 +6,14 @@ import {propagate, observing} from "jigjs/reactive/index";
 import {PokemonList} from "../pokemon-list/pokemon-list";
 import { Renderable } from 'jigjs/template/render';
 import { NotFound } from '../not-found/not-found';
+import { JigCssClass, css } from 'jigcss';
 
 
 @component()
 export class MainTemplate {
-  private readonly loadingIndicatorClass: string;
   private readonly header: MainHeader;
-  private readonly mainClass: string;
+  private readonly loadingIndicatorClass: JigCssClass;
+  private readonly mainClass: JigCssClass;
 
   @propagate()
   private readonly templateRenderControl: TemplateRenderControl
@@ -23,30 +24,30 @@ export class MainTemplate {
     this.header = new MainHeader(context);
     this.templateRenderControl = new TemplateRenderControl();
 
-    this.mainClass = this.context.css.style({
-      '&': {
-        marginTop: this.context.style.mainHeaderHeight
+    this.mainClass = css`
+      & {
+        margin-top: ${this.context.style.mainHeaderHeight}
       }
-    });
+    `;
 
-    this.loadingIndicatorClass = this.context.css.style({
-      '&': {
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
-        position: 'fixed',
-        width: '100%',
-        height: '100%',
-        color: this.context.style.colors.primaryAccent,
-        fontSize: '60px',
-        opacity: '0',
-        top: '0',
-        left: '0',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        animation: 'fadein 0.5s',
-        animationDelay: '1s'
+    this.loadingIndicatorClass = css`
+      & {
+        background-color: rgba(255, 255, 255, 0.8);
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        color: ${this.context.style.colors.primaryAccent};
+        font-size: 60px;
+        opacity: 0;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: fadein 0.5s;
+        animation-delay: 1s
       }
-    });
+    `;
   }
 
   render() {

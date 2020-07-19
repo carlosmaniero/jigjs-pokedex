@@ -4,11 +4,12 @@ import { AppContext } from "../../app-context";
 import { PokeGrid } from "../../components/poke-grid";
 import { LinkButton } from "../../components/ui/link-button";
 import { PokemonListResponse, PokemonService } from "../../services/pokemon-service";
+import { JigCssClass, css } from 'jigcss';
 
 @component()
 export class PokemonList {
   private readonly page: number;
-  private readonly pageNavigationClass: string;
+  private readonly pageNavigationClass: JigCssClass;
 
   @observing()
   private pokemonListResponse: PokemonListResponse;
@@ -25,22 +26,20 @@ export class PokemonList {
   constructor(private readonly context: AppContext, page: number) {
     this.page = page;
 
-    this.pageNavigationClass = this.context.css.style({
-      '&': {
-        margin: '0 auto',
-        maxWidth: this.context.style.layoutMaxSize,
-        display: 'flex',
-        justifyContent: 'space-between',
-        paddingBottom: this.context.style.defaultElementSpace
-      },
-      '@media': {
-        [this.context.style.viewports.tablet]: {
-            '&': {
-                padding: this.context.style.defaultElementSpace
-            },
+    this.pageNavigationClass = css`
+      & {
+        margin: 0 auto;
+        max-width: ${this.context.style.layoutMaxSize};
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: ${this.context.style.defaultElementSpace};
+      }
+      @media ${this.context.style.viewports.tablet} {
+        & {
+          padding: ${this.context.style.defaultElementSpace};
         }
       }
-    });
+    `;
 
     new PokemonService(this.context).fetchPokemonList(this.page, (err, result) => {
       if (err) {

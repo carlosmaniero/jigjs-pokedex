@@ -2,42 +2,41 @@ import {component, disconnectedCallback, html} from "jigjs/components";
 import {AppContext} from "../app-context";
 import {PokemonBasicDetail} from "../domain/pokemon";
 import {PokeCard} from "./poke-card";
+import { JigCssClass, css } from 'jigcss';
 
 @component()
 export class PokeGrid {
-  private readonly gridClass: string;
+  private readonly gridClass: JigCssClass;
 
-  constructor(
-    private readonly context: AppContext,
-    private readonly pokemonList: PokemonBasicDetail[]
-  ) {
-    this.gridClass = this.context.css.style({
-      '&': {
-        margin: '0 auto',
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr 1fr 1fr',
-        gridGap: this.context.style.defaultElementSpace,
-        maxWidth: this.context.style.layoutMaxSize,
-        padding: this.context.style.defaultElementSpace
-      },
-      '@media': {
-        [this.context.style.viewports.tablet]: {
-          '&': {
-            gridTemplateColumns: '1fr 1fr 1fr'
-          }
-        },
-        [this.context.style.viewports.largeMobile]: {
-          '&': {
-            gridTemplateColumns: '1fr 1fr'
-          }
-        },
-        [this.context.style.viewports.mobile]: {
-          '&': {
-            gridTemplateColumns: '1fr'
-          }
+  constructor(private readonly context: AppContext, private readonly pokemonList: PokemonBasicDetail[]) {
+    this.gridClass = css`
+      & {
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-gap: ${this.context.style.defaultElementSpace};
+        max-width: ${this.context.style.layoutMaxSize};
+        padding: ${this.context.style.defaultElementSpace}
+      }
+
+      @media ${this.context.style.viewports.tablet} {
+        & {
+          grid-template-columns: 1fr 1fr 1fr
         }
       }
-    });
+
+      @media ${this.context.style.viewports.largeMobile} {
+        & {
+          grid-template-columns: 1fr 1fr
+        }
+      }
+
+      @media ${this.context.style.viewports.mobile} {
+        & {
+          grid-template-columns: 1fr
+        }
+      }
+    `;
   }
 
   render() {

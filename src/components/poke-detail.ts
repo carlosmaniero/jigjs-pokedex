@@ -1,60 +1,65 @@
 import { component, html } from 'jigjs/components';
 import { Pokemon } from '../domain/pokemon';
 import { AppContext } from '../app-context';
+import { JigCssClass, css } from 'jigcss';
 
 @component()
 export class PokeDetail {
-    private readonly cssClass: string;
+    private readonly cssClass: JigCssClass;
 
     constructor(private readonly context: AppContext, private readonly pokemon: Pokemon) {
-        this.cssClass = this.context.css.style({
-            '&': {
-                margin: '0 auto',
-                maxWidth: context.style.layoutMaxSize,
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                alignItems: 'center',
-                paddingTop: context.style.defaultElementSpace,
-            },
-            '& .title-wrapper': {
-                display: 'flex',
-                color: '#FFFFFF',
-                alignItems: 'center'
-            }, 
-            '& .title-wrapper h1': {
-                margin: '0'
-            },
-            '& .skills .skill': {
-                display: 'inline-flex',
-                color: '#FFFFFF',
-                alignItems: 'center',
-                marginRight: '10px'
-            },
-            '& .skills .skill svg': {
-                marginRight: '5px',
-            },
-            '& .skills .skill span': {
-                display: 'flex',
-                alignItems: 'center',
-                color: 'rgba(255, 255, 255, 0.3)',
-                marginRight: '5px'
-            },
-            '@media': {
-                [this.context.style.viewports.tablet]: {
-                    '&': {
-                        display: 'block',
-                        padding: this.context.style.defaultElementSpace
-                    },
-                    '& .skills': {
-                        marginTop: this.context.style.defaultElementSpace
-                    },
-                    '& .sprites': {
-                        overflow: 'auto',
-                        whiteSpace: 'nowrap'
-                    }
+        this.cssClass = css`
+            & {
+                margin: 0 auto;
+                max-width: ${context.style.layoutMaxSize};
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                align-items: center;
+                padding-top: ${context.style.defaultElementSpace};
+            }
+
+            & .title-wrapper {
+                display: flex;
+                color: #FFFFFF;
+                align-items: center
+            }
+
+            & .title-wrapper h1 {
+                margin: 0
+            }
+
+            & .skills .skill {
+                display: inline-flex;
+                color: #FFFFFF;
+                align-items: center;
+                margin-right: 10px
+            }
+
+            & .skills .skill svg {
+                margin-right: 5px;
+            }
+
+            & .skills .skill span {
+                display: flex;
+                align-items: center;
+                color: rgba(255, 255, 255, 0.3);
+                margin-right: 5px
+            }
+
+            @media ${this.context.style.viewports.tablet} {
+                & {
+                    display: block;
+                    padding: ${this.context.style.defaultElementSpace}
+                };
+                & .skills {
+                    margin-top: ${this.context.style.defaultElementSpace}
+                };
+                & .sprites {
+                    overflow: auto;
+                    white-space: nowrap;
                 }
             }
-        });
+        `;
     }
 
     render() {

@@ -1,6 +1,7 @@
 import {AppContext} from "../../app-context";
 import {component, html} from "jigjs/components";
 import {Route, RouteLinkElement, RouterLink} from "jigjs/framework/router/router-link";
+import { css } from 'jigcss';
 
 @component()
 export class LinkButton {
@@ -14,18 +15,19 @@ export class LinkButton {
     this.link = this.context.routerModule.linkFactory.createLink(
       route,
       new RouteLinkElement(this.text, {
-        class: context.css.style({
-          '&': {
-            backgroundColor: context.style.colors.primary,
-            color: context.style.colors.textColor,
-            padding: '10px 20px',
-            textDecoration: 'none',
-            borderRadius: '100px'
-          },
-          '&:hover': {
-            backgroundColor: context.style.colors.primaryAccent
+        class: css`
+          & {
+            background-color: ${context.style.colors.primary};
+            color: ${context.style.colors.textColor};
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 100px;
           }
-        })
+
+          &:hover {
+            background-color: ${context.style.colors.primaryAccent}
+          }
+        `
       })
     );
   }

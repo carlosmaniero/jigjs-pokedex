@@ -1,11 +1,10 @@
-import {Css} from "jigcss";
-import {JigWindow} from "jigjs/types";
-import {RouterModule} from "jigjs/framework/router/module";
-import {Route} from "jigjs/framework/router/router-link";
-import {TransferState} from "jigjs/framework/transfer-state";
-import { Title } from './pages/title';
 import { Subject } from 'jigjs/events/subject';
+import { RouterModule } from "jigjs/framework/router/module";
+import { Route } from "jigjs/framework/router/router-link";
 import { RouterResponse } from 'jigjs/framework/router/routes';
+import { TransferState } from "jigjs/framework/transfer-state";
+import { JigWindow } from "jigjs/types";
+import { Title } from './pages/title';
 
 
 export class AppContext {
@@ -33,8 +32,6 @@ export class AppContext {
             textColor: "rgba(255, 255, 255, 0.8)"
         }
     }
-
-    readonly css = new Css(this.window);
 
     readonly title = new Title(this.window);
 
