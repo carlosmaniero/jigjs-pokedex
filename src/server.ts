@@ -34,6 +34,8 @@ const template = `<!DOCTYPE html><html lang="en">
         <div id="root"></div>
         <!-- jigjs main build file -->
         <script src="/main.app.js"></script>
+
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
     </body>
 </html>`;
 

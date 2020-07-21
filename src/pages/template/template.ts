@@ -54,6 +54,28 @@ export class MainTemplate {
     return html`
       ${this.header}
       ${this.renderMain()}
+      <footer class="${
+        css`
+          & {
+            margin: 0 auto;
+            max-width: ${this.context.style.layoutMaxSize};
+            text-align: center;
+            color: #ffffff;
+          }
+
+          & p {
+            margin: 5px 0;
+          }
+
+          & a {
+            color: #ffffff;
+          }
+        `}">
+        <p>Pokémon and Pokémon character names are trademarks of Nintendo ®.</p>
+        <p>
+          <small>Data is provided by <a href="https://pokeapi.co/">https://pokeapi.co/</a> and cover images by <a href="https://pokemondb.net/">https://pokemondb.net/</a>.</small>
+        </p>
+      </footer>
       ${this.renderLoadingIndicator()}
     `
   }
