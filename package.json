@@ -17,7 +17,7 @@
     "express": "^4.17.1",
     "jigcss": "0.0.0-pre-alpha.29",
     "jigjs": "0.0.0-pre-alpha.29",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^3.1.1",
     "ts-loader": "^7.0.5",
     "ts-node": "^8.10.1",
     "tslib": "^2.0.0",
